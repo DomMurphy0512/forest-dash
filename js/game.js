@@ -1,4 +1,4 @@
-// Configuration settings for the Phaser game instance.
+// Configuration settings for the Phaser game.
 const config = {
   type: Phaser.AUTO, // Automatically determine rendering method (WebGL or Canvas).
   width: 800, // Width of the game canvas.
