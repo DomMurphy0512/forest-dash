@@ -18,18 +18,18 @@ const config = {
 };
 // Creates a new Phaser game instance with the configuration.
 const game = new Phaser.Game(config);
-let player; // Player sprite
-let cursors; // Cursor keys input
-let spacebar; // Spacebar input
-let obstacles; // Group of obstacle sprites
-let score = 0; // Player's score
-let scoreText; // Text displaying the score
-let background; // Background tile sprite
-let foreground; // Foreground tile sprite
-let barrier; // Invisible barrier for collision detection
-let isGameOver = false; // Game over state
-let obstacleSpeed = -200; // Initial speed of obstacles
-let canJump = true; // Flag to control player jumping
+let player; // Player sprite.
+let cursors; // Cursor keys input.
+let spacebar; // Spacebar input.
+let obstacles; // Group of obstacle sprites.
+let score = 0; // Player's score.
+let scoreText; // Text displaying the score.
+let background; // Background tile sprite.
+let foreground; // Foreground tile sprite.
+let barrier; // Invisible barrier for collision detection.
+let isGameOver = false; // Game over state.
+let obstacleSpeed = -200; // Initial speed of obstacles.
+let canJump = true; // Flag to control player jumping.
 function preload() {
   this.load.image('background', 'assets/images/background.png'); // Loads background image.
   this.load.image('foreground', 'assets/images/foreground.png'); // Loads foreground image.
@@ -64,17 +64,17 @@ function create() {
     delay: 2500, // Delay for increasing obstacle speed.
     callback: increaseObstacleSpeed, // Function to increase obstacle speed.
     callbackScope: this, // Scope of the callback function.
-    loop: true // Repeats this event
+    loop: true // Repeats this event.
   });
 }
 // Function to update the game logic.
 function update() {
   if (!isGameOver) {
-    background.tilePositionX += 0.5; // Scrolls background
-    foreground.tilePositionX += 1; // Scrolls foreground
-    playerMovementManager(); // Handles player movement
+    background.tilePositionX += 0.5; // Scrolls background.
+    foreground.tilePositionX += 1; // Scrolls foreground.
+    playerMovementManager(); // Handles player movement.
     score += 1; // Increases score.
-    scoreText.setText('Score: ' + score); // Updates score text
+    scoreText.setText('Score: ' + score); // Updates score text.
   }
   if (player.y > 550) {
     player.y = 550; // Prevents player from falling below the ground.
@@ -88,24 +88,25 @@ function update() {
 // Function to manage player movement.
 function playerMovementManager() {
   if (cursors.left.isDown) {
-    player.setVelocityX(-160); // Moves player left
+    player.setVelocityX(-160); // Moves player left.
   } 
   else if (cursors.right.isDown) {
-    player.setVelocityX(160); // Moves player right
+    player.setVelocityX(160); // Moves player right.
   } 
   else {
-    player.setVelocityX(0); // Stops player movement
+    player.setVelocityX(0); // Stops player movement.
   }
   if ((cursors.up.isDown || spacebar.isDown) && canJump) {
     player.setVelocityY(-300); // Makes player jump.
-    canJump = false; // Prevents double jumping
+    this.sound.play('jump'); // Plays the jump sound.
+    canJump = false; // Prevents double jumping.
   }
 }
 // Function to add an obstacle.
 function addObstacle() {
-  const obstacle = obstacles.create(800, 500, 'obstacle'); // Creates an obstacle sprite
-  obstacle.setVelocityX(obstacleSpeed); // Sets obstacle speed
-  obstacle.checkWorldBounds = true; // Enables world bounds check
+  const obstacle = obstacles.create(800, 500, 'obstacle'); // Creates an obstacle sprite.
+  obstacle.setVelocityX(obstacleSpeed); // Sets obstacle speed.
+  obstacle.checkWorldBounds = true; // Enables world bounds check.
   obstacle.outOfBoundsKill = true; // Destroys obstacle when out of bounds.
   this.physics.add.collider(player, obstacle, hitObstacle, null, this); // Collision between player and obstacle.
 }
@@ -113,14 +114,14 @@ function addObstacle() {
 function getRandomDelay() {
   return Phaser.Math.Between(1000, 3000); // Returns a random delay between 1 and 3 seconds.
 }
-// Function to handle collision between player and obstacles
+// Function to handle collision between player and obstacles.
 function hitObstacle(player, obstacle) {
-  this.physics.pause(); // Pauses the game physics
-  player.setTint(0xff0000); // Changes the player color to red
-  this.sound.play('gameover'); // Plays the gameover sound
-  isGameOver = true; // Sets game over state
+  this.physics.pause(); // Pauses the game physics.
+  player.setTint(0xff0000); // Changes the player color to red.
+  this.sound.play('gameover'); // Plays the gameover sound.
+  isGameOver = true; // Sets game over state.
 }
 // Function to increase the speed of obstacles over time.
 function increaseObstacleSpeed() {
-  obstacleSpeed -= 75; // Increases obstacle speed
+  obstacleSpeed -= 75; // Increases obstacle speed.
 }
