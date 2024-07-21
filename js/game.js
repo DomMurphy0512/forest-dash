@@ -109,7 +109,6 @@ function playerMovementManager() {
   }
   if ((cursors.up.isDown || spacebar.isDown) && canJump) {
     player.setVelocityY(-300); // Makes player jump.
-    this.sound.play('jump'); // Plays the jump sound.
     canJump = false; // Prevents double jumping.
   }
 }
